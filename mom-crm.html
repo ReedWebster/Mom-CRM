@@ -146,8 +146,24 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   background: linear-gradient(160deg, #FAF7F2 0%, #F0E8DE 35%, #E8DDD0 65%, #D4C4B0 100%);
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
 }
+
+#birthday-screen .bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(44,37,32,0.45);
+  backdrop-filter: blur(6px);
+  z-index: 1;
+}
+
+#birthday-screen.has-photo h1 { color: var(--white); text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+#birthday-screen.has-photo .subtitle { color: rgba(255,255,255,0.9); }
+#birthday-screen.has-photo .enter-btn { background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); }
+#birthday-screen.has-photo .enter-btn:hover { background: rgba(255,255,255,0.3); }
+#birthday-screen.has-photo .heart { color: rgba(255,255,255,0.5); }
 
 #birthday-screen .content {
   text-align: center;
@@ -1207,6 +1223,7 @@ input:focus, select:focus, textarea:focus {
      BIRTHDAY / LANDING SCREEN
      ============================================================ -->
 <div id="birthday-screen">
+  <div class="bg-overlay"></div>
   <div class="heart">&hearts;</div>
   <div class="heart">&hearts;</div>
   <div class="heart">&hearts;</div>
@@ -1592,14 +1609,17 @@ function save(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
    BIRTHDAY SCREEN
    ============================================================ */
 function initBirthday() {
-  if (load(KEYS.welcomed)) {
-    document.getElementById('birthday-screen').style.display = 'none';
-    initApp();
+  // Always show the birthday screen on load
+  const screen = document.getElementById('birthday-screen');
+  const photo = localStorage.getItem(KEYS.photo);
+  if (photo) {
+    screen.style.backgroundImage = `url(${photo})`;
+    screen.classList.add('has-photo');
   }
+  screen.style.display = 'flex';
 }
 
 function dismissBirthday() {
-  save(KEYS.welcomed, true);
   document.getElementById('birthday-screen').style.display = 'none';
   if (!load(KEYS.photoSetup)) {
     document.getElementById('photo-setup').style.display = 'flex';
