@@ -310,7 +310,8 @@ input:focus, select:focus, textarea:focus {
 }
 .nav-item:hover { background: var(--surface); color: var(--text); }
 .nav-item.active { background: var(--surface); color: var(--rose); font-weight: 600; }
-.nav-item .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+.nav-item .icon { width: 22px; text-align: center; display: flex; align-items: center; justify-content: center; }
+.nav-item .icon svg { display: block; }
 
 .main-content {
   flex: 1;
@@ -663,6 +664,16 @@ input:focus, select:focus, textarea:focus {
   color: var(--text-light);
   padding: 0 5px;
   font-weight: 500;
+}
+
+/* Calendar sidebar */
+.cal-sidebar {
+  width: 180px;
+  flex-shrink: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
 }
 
 /* Day detail panel */
@@ -1097,7 +1108,8 @@ input:focus, select:focus, textarea:focus {
     transition: all var(--transition);
   }
   .bottom-nav .bnav-item.active { color: var(--rose); }
-  .bottom-nav .bnav-item .icon { font-size: 1.3rem; }
+  .bottom-nav .bnav-item .icon { display: flex; align-items: center; justify-content: center; }
+  .bottom-nav .bnav-item .icon svg { display: block; }
 
   .dashboard-bg { left: 0; }
   .dashboard-grid { grid-template-columns: 1fr; }
@@ -1107,6 +1119,7 @@ input:focus, select:focus, textarea:focus {
 
   .day-detail { width: 100%; right: -100%; }
   .calendar-nav h2 { min-width: 140px; font-size: 1.1rem; }
+  .cal-sidebar { display: none; }
   .cal-event-pill { font-size: 0.6rem; padding: 0 3px; }
   .cal-day .day-num { width: 24px; height: 24px; font-size: 0.75rem; }
 }
@@ -1194,28 +1207,28 @@ input:focus, select:focus, textarea:focus {
      BIRTHDAY / LANDING SCREEN
      ============================================================ -->
 <div id="birthday-screen">
-  <div class="heart">💕</div>
-  <div class="heart">🤍</div>
-  <div class="heart">💗</div>
-  <div class="heart">🩷</div>
-  <div class="heart">💕</div>
-  <div class="heart">🤍</div>
-  <div class="heart">💗</div>
-  <div class="heart">🩷</div>
-  <div class="heart">💕</div>
-  <div class="heart">🤍</div>
-  <div class="heart">💗</div>
-  <div class="heart">🩷</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
+  <div class="heart">&hearts;</div>
   <div class="content">
-    <h1>Happy Birthday, Mom!</h1>
+    <h1>Happy Birthday, Mom</h1>
     <p class="subtitle">
-      You are the heart of this family — the one who keeps everything running,
-      remembers every detail, and somehow still finds time to make everyone feel loved.
-      You deserve a little corner of the world that's just yours — a place to plan,
-      dream, remember, and breathe.<br><br>
-      This space was made with love, just for you. 💛
+      I am forever grateful for you and can't imagine life without you.
+      <br><br>
+      I know how much you love having your life in order, and I truly
+      believe this tool will help you do just that. A space to plan,
+      organize, and keep everything in one place — built just for you.
     </p>
-    <button class="enter-btn" onclick="dismissBirthday()">Enter My Space ✨</button>
+    <button class="enter-btn" onclick="dismissBirthday()">Enter My Space</button>
   </div>
 </div>
 
@@ -1227,7 +1240,7 @@ input:focus, select:focus, textarea:focus {
     <h2>Add a Photo to Your Dashboard?</h2>
     <p>Choose a favorite photo and it'll become the background of your home screen. You can always change it later in Settings.</p>
     <div class="photo-upload-area" onclick="document.getElementById('photo-input').click()">
-      <div id="photo-preview-text">📷 Click to choose a photo</div>
+      <div id="photo-preview-text">Click to choose a photo</div>
       <img id="photo-preview" style="display:none" alt="Preview">
       <input type="file" id="photo-input" accept="image/*" style="display:none" onchange="previewPhoto(this)">
     </div>
@@ -1249,27 +1262,27 @@ input:focus, select:focus, textarea:focus {
 <div id="app">
   <!-- Sidebar (desktop/tablet) -->
   <aside class="sidebar">
-    <div class="logo">My Space 🌿</div>
+    <div class="logo">My Space</div>
     <nav>
-      <div class="nav-item active" data-section="dashboard"><span class="icon">🏠</span> Dashboard</div>
-      <div class="nav-item" data-section="calendar"><span class="icon">📅</span> Calendar</div>
-      <div class="nav-item" data-section="journal"><span class="icon">📓</span> Journal</div>
-      <div class="nav-item" data-section="todos"><span class="icon">✅</span> Todos & Goals</div>
-      <div class="nav-item" data-section="contacts"><span class="icon">👥</span> Contacts</div>
-      <div class="nav-item" data-section="bookmarks"><span class="icon">🔖</span> Bookmarks</div>
-      <div class="nav-item" data-section="settings"><span class="icon">⚙️</span> Settings</div>
+      <div class="nav-item active" data-section="dashboard"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Dashboard</div>
+      <div class="nav-item" data-section="calendar"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Calendar</div>
+      <div class="nav-item" data-section="journal"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span> Journal</div>
+      <div class="nav-item" data-section="todos"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span> Todos & Goals</div>
+      <div class="nav-item" data-section="contacts"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span> Contacts</div>
+      <div class="nav-item" data-section="bookmarks"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></span> Bookmarks</div>
+      <div class="nav-item" data-section="settings"><span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span> Settings</div>
     </nav>
   </aside>
 
   <!-- Bottom nav (mobile) -->
   <div class="bottom-nav">
-    <div class="bnav-item active" data-section="dashboard"><span class="icon">🏠</span></div>
-    <div class="bnav-item" data-section="calendar"><span class="icon">📅</span></div>
-    <div class="bnav-item" data-section="journal"><span class="icon">📓</span></div>
-    <div class="bnav-item" data-section="todos"><span class="icon">✅</span></div>
-    <div class="bnav-item" data-section="contacts"><span class="icon">👥</span></div>
-    <div class="bnav-item" data-section="bookmarks"><span class="icon">🔖</span></div>
-    <div class="bnav-item" data-section="settings"><span class="icon">⚙️</span></div>
+    <div class="bnav-item active" data-section="dashboard"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span></div>
+    <div class="bnav-item" data-section="calendar"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span></div>
+    <div class="bnav-item" data-section="journal"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span></div>
+    <div class="bnav-item" data-section="todos"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span></div>
+    <div class="bnav-item" data-section="contacts"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span></div>
+    <div class="bnav-item" data-section="bookmarks"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></span></div>
+    <div class="bnav-item" data-section="settings"><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span></div>
   </div>
 
   <main class="main-content">
@@ -1293,20 +1306,20 @@ input:focus, select:focus, textarea:focus {
 
         <div class="dashboard-grid">
           <div class="dash-card">
-            <h3>📋 Today's Tasks</h3>
+            <h3>Today's Tasks</h3>
             <div id="dash-todos"></div>
           </div>
           <div class="dash-card">
-            <h3>📅 Upcoming Events</h3>
+            <h3>Upcoming Events</h3>
             <div id="dash-events"></div>
           </div>
           <div class="dash-card" style="grid-column: span 2">
-            <h3>📓 Recent Journal</h3>
+            <h3>Recent Journal</h3>
             <div id="dash-journal"></div>
           </div>
         </div>
 
-        <h3 style="margin-bottom:12px;color:var(--taupe)">📌 Sticky Notes</h3>
+        <h3 style="margin-bottom:12px;color:var(--text-light);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em">Sticky Notes</h3>
         <div class="sticky-notes-area" id="sticky-notes"></div>
       </div>
     </div>
@@ -1326,13 +1339,21 @@ input:focus, select:focus, textarea:focus {
         </div>
       </div>
 
-      <div id="cal-grid-view">
-        <div class="calendar-grid-wrapper">
-          <div class="calendar-grid" id="calendar-grid"></div>
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="flex:1">
+          <div id="cal-grid-view">
+            <div class="calendar-grid-wrapper">
+              <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+          </div>
+          <div id="cal-list-view" class="calendar-list-view" style="display:none"></div>
+        </div>
+        <div class="cal-sidebar" id="cal-sidebar">
+          <h4 style="margin-bottom:10px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-light)">Calendars</h4>
+          <div id="calendars-list"></div>
+          <button class="btn-ghost btn-small" onclick="openCalendarModal()" style="margin-top:8px;width:100%;text-align:left">+ Add calendar</button>
         </div>
       </div>
-
-      <div id="cal-list-view" class="calendar-list-view" style="display:none"></div>
 
       <!-- Day detail slide panel -->
       <div class="day-detail" id="day-detail">
@@ -1350,14 +1371,8 @@ input:focus, select:focus, textarea:focus {
             <input type="time" id="dd-event-time">
           </div>
           <div class="form-group">
-            <label>Color</label>
-            <select id="dd-event-color">
-              <option value="#E8A598">Rose</option>
-              <option value="#9DB89C">Sage</option>
-              <option value="#C4A882">Taupe</option>
-              <option value="#5B9BD5">Blue</option>
-              <option value="#FFB74D">Orange</option>
-            </select>
+            <label>Calendar</label>
+            <select id="dd-event-color"></select>
           </div>
           <div class="form-group">
             <label>Recurring</label>
@@ -1399,16 +1414,16 @@ input:focus, select:focus, textarea:focus {
             <input type="date" id="entry-date" oninput="autoSaveEntry()">
             <select id="entry-mood" onchange="autoSaveEntry()">
               <option value="">Mood...</option>
-              <option value="happy">😊 Happy</option>
-              <option value="grateful">🙏 Grateful</option>
-              <option value="reflective">💭 Reflective</option>
-              <option value="tired">😴 Tired</option>
-              <option value="excited">🎉 Excited</option>
+              <option value="happy">Happy</option>
+              <option value="grateful">Grateful</option>
+              <option value="reflective">Reflective</option>
+              <option value="tired">Tired</option>
+              <option value="excited">Excited</option>
             </select>
           </div>
           <div class="journal-body" id="entry-body" contenteditable="true" oninput="autoSaveEntry()"></div>
           <div class="journal-actions">
-            <button class="btn-primary btn-small" onclick="printEntry()">🖨 Print This Entry</button>
+            <button class="btn-primary btn-small" onclick="printEntry()">Print</button>
             <button class="btn-danger btn-small" onclick="deleteCurrentEntry()">Delete Entry</button>
           </div>
         </div>
@@ -1507,9 +1522,9 @@ input:focus, select:focus, textarea:focus {
       <div class="settings-section">
         <h3>Data Backup</h3>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn-secondary" onclick="exportData()">📥 Export Data</button>
+          <button class="btn-secondary" onclick="exportData()">Export Data</button>
           <label class="btn-outline" style="display:inline-flex;align-items:center;cursor:pointer">
-            📤 Import Data
+            Import Data
             <input type="file" accept=".json" style="display:none" onchange="importData(this)">
           </label>
         </div>
@@ -1547,8 +1562,25 @@ const KEYS = {
   goals: 'mom_crm_goals',
   contacts: 'mom_crm_contacts',
   bookmarks: 'mom_crm_bookmarks',
-  dismissed: 'mom_crm_dismissed_toasts'
+  dismissed: 'mom_crm_dismissed_toasts',
+  calendars: 'mom_crm_calendars'
 };
+
+const DEFAULT_CALENDARS = [
+  { id: 'personal', name: 'Personal', color: '#A67C5B', visible: true },
+  { id: 'family', name: 'Family', color: '#5B8FA6', visible: true },
+  { id: 'health', name: 'Health', color: '#8B9E82', visible: true },
+  { id: 'work', name: 'Work', color: '#B07AA1', visible: true },
+  { id: 'other', name: 'Other', color: '#BFA98A', visible: true }
+];
+
+function getCalendars() {
+  return load(KEYS.calendars) || DEFAULT_CALENDARS;
+}
+
+function saveCalendars(cals) {
+  save(KEYS.calendars, cals);
+}
 
 function load(key) {
   try { return JSON.parse(localStorage.getItem(key)) || null; }
@@ -1639,6 +1671,7 @@ function initApp() {
   updateGreeting();
   setInterval(updateGreeting, 30000);
   renderStickyNotes();
+  renderCalendarSidebar();
   renderCalendar();
   renderJournalList();
   renderTodos();
@@ -1800,6 +1833,73 @@ function changeMonth(dir) {
   renderCalendar();
 }
 
+/* Calendar sidebar */
+function renderCalendarSidebar() {
+  const cals = getCalendars();
+  const container = document.getElementById('calendars-list');
+  container.innerHTML = cals.map((c, i) => `
+    <label class="cal-sidebar-item" style="display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:0.88rem">
+      <input type="checkbox" ${c.visible ? 'checked' : ''} onchange="toggleCalendarVisibility(${i})" style="width:16px;height:16px;accent-color:${c.color}">
+      <span class="cal-sidebar-dot" style="width:10px;height:10px;border-radius:3px;background:${c.color};flex-shrink:0"></span>
+      <span>${esc(c.name)}</span>
+    </label>
+  `).join('');
+
+  // Also update any open calendar selectors
+  populateCalendarSelects();
+}
+
+function toggleCalendarVisibility(i) {
+  const cals = getCalendars();
+  cals[i].visible = !cals[i].visible;
+  saveCalendars(cals);
+  renderCalendar();
+}
+
+function populateCalendarSelects() {
+  const cals = getCalendars();
+  const options = cals.map(c => `<option value="${c.color}" data-cal-id="${c.id}">${c.name}</option>`).join('');
+  ['dd-event-color', 'modal-ev-color'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = options;
+  });
+}
+
+function openCalendarModal() {
+  showModal('Add Calendar', `
+    <div class="form-group"><label>Name</label><input type="text" id="modal-cal-name" placeholder="e.g. Appointments"></div>
+    <div class="form-group"><label>Color</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="cal-color-picker">
+        ${['#A67C5B','#5B8FA6','#8B9E82','#B07AA1','#BFA98A','#C0392B','#D4843E','#5B7FA6','#7C8B5B','#8B5B7C'].map(c =>
+          `<div class="color-swatch" data-color="${c}" onclick="selectCalColor(this)" style="width:32px;height:32px;border-radius:6px;background:${c};cursor:pointer;border:2px solid transparent;transition:border-color 0.15s"></div>`
+        ).join('')}
+      </div>
+      <input type="hidden" id="modal-cal-color" value="#A67C5B">
+    </div>
+  `, () => {
+    const name = document.getElementById('modal-cal-name').value.trim();
+    const color = document.getElementById('modal-cal-color').value;
+    if (!name) return;
+    const cals = getCalendars();
+    cals.push({ id: uid(), name, color, visible: true });
+    saveCalendars(cals);
+    renderCalendarSidebar();
+    renderCalendar();
+    closeModal();
+  });
+  // Select first color by default
+  setTimeout(() => {
+    const first = document.querySelector('#cal-color-picker .color-swatch');
+    if (first) selectCalColor(first);
+  }, 50);
+}
+
+function selectCalColor(el) {
+  document.querySelectorAll('#cal-color-picker .color-swatch').forEach(s => s.style.borderColor = 'transparent');
+  el.style.borderColor = 'var(--text)';
+  document.getElementById('modal-cal-color').value = el.dataset.color;
+}
+
 function goToToday() {
   const now = new Date();
   calYear = now.getFullYear();
@@ -1823,7 +1923,7 @@ function renderCalendar() {
 
   // Helper to render a single day cell
   function dayCell(d, dateStr, classes) {
-    const dayEvents = getEventsForDate(events, dateStr);
+    const dayEvents = getEventsForDate(events, dateStr, true);
     const pills = dayEvents.slice(0, 3).map(e =>
       `<div class="cal-event-pill" style="background:${e.color}">${esc(e.title)}</div>`
     ).join('');
@@ -1919,11 +2019,14 @@ function renderCalendarList() {
 /* ============================================================
    CALENDAR — Recurring event logic
    ============================================================ */
-function getEventsForDate(events, dateStr) {
+function getEventsForDate(events, dateStr, filterVisible) {
   const result = [];
   const target = new Date(dateStr + 'T00:00:00');
+  const cals = getCalendars();
+  const visibleColors = filterVisible ? new Set(cals.filter(c => c.visible).map(c => c.color)) : null;
 
   events.forEach(ev => {
+    if (visibleColors && !visibleColors.has(ev.color)) return;
     const base = new Date(ev.date + 'T00:00:00');
     if (target < base) return;
 
@@ -1972,7 +2075,8 @@ function openDayDetail(dateStr) {
   const panel = document.getElementById('day-detail');
   document.getElementById('day-detail-title').textContent = formatDate(dateStr);
   const events = load(KEYS.events) || [];
-  const dayEvents = getEventsForDate(events, dateStr);
+  const dayEvents = getEventsForDate(events, dateStr, true);
+  populateCalendarSelects();
 
   const container = document.getElementById('day-detail-events');
   if (dayEvents.length === 0) {
@@ -2039,12 +2143,8 @@ function openEventModal() {
     <div class="form-group"><label>Title</label><input type="text" id="modal-ev-title"></div>
     <div class="form-group"><label>Date</label><input type="date" id="modal-ev-date" value="${today}"></div>
     <div class="form-group"><label>Time</label><input type="time" id="modal-ev-time"></div>
-    <div class="form-group"><label>Color</label>
-      <select id="modal-ev-color">
-        <option value="#E8A598">Rose</option><option value="#9DB89C">Sage</option>
-        <option value="#C4A882">Taupe</option><option value="#5B9BD5">Blue</option>
-        <option value="#FFB74D">Orange</option>
-      </select>
+    <div class="form-group"><label>Calendar</label>
+      <select id="modal-ev-color"></select>
     </div>
     <div class="form-group"><label>Recurring</label>
       <select id="modal-ev-recur">
@@ -2072,6 +2172,7 @@ function openEventModal() {
     renderCalendar();
     closeModal();
   });
+  populateCalendarSelects();
 }
 
 /* ============================================================
@@ -2473,7 +2574,6 @@ function renderContacts() {
 
   if (upcoming.length > 0) {
     bannerArea.innerHTML = `<div class="birthday-banner">
-      <span class="bday-icon">🎂</span>
       <div class="bday-list">
         <strong>Upcoming Birthdays:</strong>
         ${upcoming.map(c => {
@@ -2508,14 +2608,14 @@ function renderContacts() {
       </div>
       <h3>${esc(c.name)}</h3>
       <div class="relationship"><span class="badge" style="background:#f0e8de;color:var(--taupe)">${c.relationship || 'other'}</span></div>
-      ${c.birthday ? `<div class="contact-detail">🎂 ${formatDate(c.birthday)}</div>` : ''}
-      ${c.phone ? `<div class="contact-detail">📞 ${esc(c.phone)}</div>` : ''}
-      ${c.email ? `<div class="contact-detail">✉ ${esc(c.email)}</div>` : ''}
-      ${c.address ? `<div class="contact-detail">📍 ${esc(c.address)}</div>` : ''}
+      ${c.birthday ? `<div class="contact-detail">${formatDate(c.birthday)}</div>` : ''}
+      ${c.phone ? `<div class="contact-detail">${esc(c.phone)}</div>` : ''}
+      ${c.email ? `<div class="contact-detail">${esc(c.email)}</div>` : ''}
+      ${c.address ? `<div class="contact-detail">${esc(c.address)}</div>` : ''}
       ${c.notes ? `<div style="font-size:0.85rem;color:var(--text-light);margin-top:8px;font-style:italic">${esc(c.notes)}</div>` : ''}
       <div class="last-contacted">
         ${c.lastContacted ? 'Last contacted: ' + formatDate(c.lastContacted) : 'Not contacted yet'}
-        <button class="btn-outline btn-small" style="margin-left:8px;padding:4px 10px" onclick="markContacted(${ci})">📱 Today</button>
+        <button class="btn-outline btn-small" style="margin-left:8px;padding:4px 10px" onclick="markContacted(${ci})">Contacted today</button>
       </div>
     </div>`;
   }).join('');
@@ -2840,7 +2940,7 @@ function formatDate(dateStr) {
 }
 
 function moodLabel(mood) {
-  const labels = { happy: '😊 Happy', grateful: '🙏 Grateful', reflective: '💭 Reflective', tired: '😴 Tired', excited: '🎉 Excited' };
+  const labels = { happy: 'Happy', grateful: 'Grateful', reflective: 'Reflective', tired: 'Tired', excited: 'Excited' };
   return labels[mood] || mood || '';
 }
 
