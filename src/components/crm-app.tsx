@@ -343,7 +343,7 @@ export default function CrmApp({
   // -------------------------------------------------------------------------
   const [calYear, setCalYear] = useState(() => new Date().getFullYear());
   const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
-  const [calViewMode, setCalViewMode] = useState<"grid" | "list">("grid");
+  const [calViewMode, setCalViewMode] = useState<"month" | "week" | "day">("month");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [dayDetailOpen, setDayDetailOpen] = useState(false);
 
@@ -723,10 +723,59 @@ export default function CrmApp({
     });
   }
 
+  // Track a specific "focused date" for week & day views
+  const [focusedDate, setFocusedDate] = useState<Date>(() => new Date());
+
   function goToToday() {
     const n = new Date();
     setCalYear(n.getFullYear());
     setCalMonth(n.getMonth());
+    setFocusedDate(new Date());
+  }
+
+  function changeWeek(dir: number) {
+    setFocusedDate((prev) => {
+      const d = new Date(prev);
+      d.setDate(d.getDate() + dir * 7);
+      return d;
+    });
+  }
+
+  function changeDay(dir: number) {
+    setFocusedDate((prev) => {
+      const d = new Date(prev);
+      d.setDate(d.getDate() + dir);
+      return d;
+    });
+  }
+
+  // Helper: get the Sunday of the week containing a date
+  function getWeekStart(date: Date): Date {
+    const d = new Date(date);
+    d.setDate(d.getDate() - d.getDay());
+    return d;
+  }
+
+  // Helper: parse a time string like "14:30" into fractional hours (14.5)
+  function parseTimeToHours(time: string): number {
+    if (!time) return -1;
+    const [h, m] = time.split(":").map(Number);
+    return h + (m || 0) / 60;
+  }
+
+  // Helper: format date as "Saturday, April 5, 2026"
+  function formatFullDate(date: Date): string {
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  // Helper: get a date string "YYYY-MM-DD" from a Date
+  function toDateStr(date: Date): string {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   }
 
   function openDayDetail(dateStr: string) {
@@ -826,157 +875,304 @@ export default function CrmApp({
   }
 
   function renderCalendarGrid() {
+    const HOUR_START = 6;
+    const HOUR_END = 21; // 9pm
+    const HOURS = Array.from({ length: HOUR_END - HOUR_START }, (_, i) => HOUR_START + i);
+    const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const today = new Date();
+    const todayStr = toDateStr(today);
+
+    // ---- Month view header label ----
     const monthLabel = new Date(calYear, calMonth).toLocaleDateString("en-US", {
       month: "long",
       year: "numeric",
     });
-    const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-    const firstDay = new Date(calYear, calMonth, 1).getDay();
-    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-    const prevDays = new Date(calYear, calMonth, 0).getDate();
-    const today = new Date();
-    const todayStr = today.toISOString().split("T")[0];
 
-    const cells: React.ReactNode[] = [];
+    // ---- Week view header label ----
+    const weekStart = getWeekStart(focusedDate);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    const weekLabel = weekStart.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " - " +
+      weekEnd.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
-    // Day headers
-    days.forEach((d, i) => {
-      cells.push(
-        <div key={`hdr-${i}`} className={`cal-day-header${i === 0 || i === 6 ? " weekend" : ""}`}>
-          {d}
-        </div>
-      );
-    });
+    // ---- Day view header label ----
+    const dayLabel = formatFullDate(focusedDate);
 
-    function dayCell(d: number, dateStr: string, classes: string) {
-      const dayEvents = getEventsForDate(eventsAsRecords, dateStr, visibleColors);
-      const pills = dayEvents.slice(0, 3);
-      const moreCount = dayEvents.length > 3 ? dayEvents.length - 3 : 0;
-      const hasEvents = dayEvents.length > 0;
+    // Determine nav header label and nav handlers
+    let headerLabel = monthLabel;
+    let navPrev = () => changeMonth(-1);
+    let navNext = () => changeMonth(1);
+    if (calViewMode === "week") {
+      headerLabel = weekLabel;
+      navPrev = () => changeWeek(-1);
+      navNext = () => changeWeek(1);
+    } else if (calViewMode === "day") {
+      headerLabel = dayLabel;
+      navPrev = () => changeDay(-1);
+      navNext = () => changeDay(1);
+    }
+
+    // ---- Build monthly grid cells ----
+    function buildMonthCells() {
+      const firstDay = new Date(calYear, calMonth, 1).getDay();
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      const prevDays = new Date(calYear, calMonth, 0).getDate();
+      const cells: React.ReactNode[] = [];
+
+      dayNames.forEach((d, i) => {
+        cells.push(
+          <div key={`hdr-${i}`} className={`cal-day-header${i === 0 || i === 6 ? " weekend" : ""}`}>
+            {d}
+          </div>
+        );
+      });
+
+      function dayCell(d: number, dateStr: string, classes: string) {
+        const dayEvents = getEventsForDate(eventsAsRecords, dateStr, visibleColors);
+        const pills = dayEvents.slice(0, 3);
+        const moreCount = dayEvents.length > 3 ? dayEvents.length - 3 : 0;
+        const hasEvents = dayEvents.length > 0;
+
+        return (
+          <div
+            key={dateStr}
+            className={`${classes}${hasEvents ? " has-events" : ""}`}
+            onClick={() => {
+              // Click a day in month view -> switch to day view
+              setFocusedDate(new Date(dateStr + "T12:00:00"));
+              setCalViewMode("day");
+            }}
+          >
+            <div className="day-num">{d}</div>
+            <div className="cal-events">
+              {pills.map((e, idx) => (
+                <div key={idx} className="cal-event-pill" style={{ background: e.color }}>
+                  {e.title}
+                </div>
+              ))}
+              {moreCount > 0 && <div className="cal-event-more">+{moreCount} more</div>}
+            </div>
+          </div>
+        );
+      }
+
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const d = prevDays - i;
+        const pm = calMonth === 0 ? 11 : calMonth - 1;
+        const py = calMonth === 0 ? calYear - 1 : calYear;
+        const dateStr = `${py}-${String(pm + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        const dow = new Date(py, pm, d).getDay();
+        cells.push(dayCell(d, dateStr, `cal-day other-month${dow === 0 || dow === 6 ? " weekend" : ""}`));
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        const isToday = today.getFullYear() === calYear && today.getMonth() === calMonth && today.getDate() === d;
+        const dow = new Date(calYear, calMonth, d).getDay();
+        const cls = `cal-day${isToday ? " today" : ""}${dow === 0 || dow === 6 ? " weekend" : ""}${dateStr === selectedDate ? " selected" : ""}`;
+        cells.push(dayCell(d, dateStr, cls));
+      }
+
+      const totalCells = firstDay + daysInMonth;
+      const remaining = (7 - (totalCells % 7)) % 7;
+      for (let d = 1; d <= remaining; d++) {
+        const nm = calMonth === 11 ? 0 : calMonth + 1;
+        const ny = calMonth === 11 ? calYear + 1 : calYear;
+        const dateStr = `${ny}-${String(nm + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        const dow = new Date(ny, nm, d).getDay();
+        cells.push(dayCell(d, dateStr, `cal-day other-month${dow === 0 || dow === 6 ? " weekend" : ""}`));
+      }
+
+      return cells;
+    }
+
+    // ---- Build weekly view ----
+    function buildWeekView() {
+      const ws = getWeekStart(focusedDate);
+      const weekDates: Date[] = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(ws);
+        d.setDate(d.getDate() + i);
+        weekDates.push(d);
+      }
 
       return (
-        <div
-          key={dateStr}
-          className={`${classes}${hasEvents ? " has-events" : ""}`}
-          onClick={() => openDayDetail(dateStr)}
-        >
-          <div className="day-num">{d}</div>
-          <div className="cal-events">
-            {pills.map((e, idx) => (
-              <div key={idx} className="cal-event-pill" style={{ background: e.color }}>
-                {e.title}
-              </div>
+        <div className="week-view">
+          {/* Column headers */}
+          <div className="week-view-header">
+            <div className="week-col-header" />
+            {weekDates.map((d, i) => {
+              const ds = toDateStr(d);
+              return (
+                <div key={i} className={`week-col-header${ds === todayStr ? " today" : ""}`}>
+                  {dayNames[i]}
+                  <div className="week-day-num">{d.getDate()}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* All-day events row */}
+          <div className="week-allday-row">
+            <div className="week-allday-label">all-day</div>
+            {weekDates.map((d, i) => {
+              const ds = toDateStr(d);
+              const allDay = getEventsForDate(eventsAsRecords, ds, visibleColors).filter((e) => !e.time);
+              return (
+                <div key={i} className="week-allday-cell">
+                  {allDay.map((e, idx) => (
+                    <div key={idx} className="week-allday-pill" style={{ background: e.color }}>{e.title}</div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Time grid */}
+          <div className="week-time-grid">
+            {HOURS.map((hour) => (
+              <React.Fragment key={hour}>
+                <div className="week-time-label">
+                  {hour === 0 ? "12 AM" : hour < 12 ? `${hour} AM` : hour === 12 ? "12 PM" : `${hour - 12} PM`}
+                </div>
+                {weekDates.map((d, colIdx) => {
+                  const ds = toDateStr(d);
+                  const colEvents = getEventsForDate(eventsAsRecords, ds, visibleColors).filter((e) => {
+                    if (!e.time) return false;
+                    const h = parseTimeToHours(e.time);
+                    return h >= hour && h < hour + 1;
+                  });
+                  return (
+                    <div key={colIdx} className="week-col" onClick={() => openDayDetail(ds)}>
+                      {colEvents.map((e, idx) => {
+                        const h = parseTimeToHours(e.time);
+                        const topPct = ((h - hour) / 1) * 100;
+                        return (
+                          <div
+                            key={idx}
+                            className="week-event-block"
+                            style={{ background: e.color, top: `${topPct}%` }}
+                          >
+                            {e.title}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </React.Fragment>
             ))}
-            {moreCount > 0 && <div className="cal-event-more">+{moreCount} more</div>}
           </div>
         </div>
       );
     }
 
-    // Previous month days
-    for (let i = firstDay - 1; i >= 0; i--) {
-      const d = prevDays - i;
-      const pm = calMonth === 0 ? 11 : calMonth - 1;
-      const py = calMonth === 0 ? calYear - 1 : calYear;
-      const dateStr = `${py}-${String(pm + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-      const dow = new Date(py, pm, d).getDay();
-      cells.push(dayCell(d, dateStr, `cal-day other-month${dow === 0 || dow === 6 ? " weekend" : ""}`));
-    }
+    // ---- Build daily view ----
+    function buildDayView() {
+      const ds = toDateStr(focusedDate);
+      const dayEvents = getEventsForDate(eventsAsRecords, ds, visibleColors);
+      const allDayEvents = dayEvents.filter((e) => !e.time);
+      const timedEvents = dayEvents.filter((e) => !!e.time);
 
-    // Current month
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-      const isToday = today.getFullYear() === calYear && today.getMonth() === calMonth && today.getDate() === d;
-      const dow = new Date(calYear, calMonth, d).getDay();
-      const cls = `cal-day${isToday ? " today" : ""}${dow === 0 || dow === 6 ? " weekend" : ""}${dateStr === selectedDate ? " selected" : ""}`;
-      cells.push(dayCell(d, dateStr, cls));
-    }
+      return (
+        <div className="day-view">
+          {/* All-day events */}
+          {allDayEvents.length > 0 && (
+            <div className="day-all-day">
+              <span className="day-allday-label">All-day</span>
+              {allDayEvents.map((e, idx) => (
+                <span key={idx} className="day-allday-pill" style={{ background: e.color }}>{e.title}</span>
+              ))}
+            </div>
+          )}
 
-    // Next month fill
-    const totalCells = firstDay + daysInMonth;
-    const remaining = (7 - (totalCells % 7)) % 7;
-    for (let d = 1; d <= remaining; d++) {
-      const nm = calMonth === 11 ? 0 : calMonth + 1;
-      const ny = calMonth === 11 ? calYear + 1 : calYear;
-      const dateStr = `${ny}-${String(nm + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-      const dow = new Date(ny, nm, d).getDay();
-      cells.push(dayCell(d, dateStr, `cal-day other-month${dow === 0 || dow === 6 ? " weekend" : ""}`));
+          {/* Time grid */}
+          <div className="day-time-grid">
+            {HOURS.map((hour) => {
+              const hourEvents = timedEvents.filter((e) => {
+                const h = parseTimeToHours(e.time);
+                return h >= hour && h < hour + 1;
+              });
+              return (
+                <div key={hour} className="day-time-slot">
+                  <div className="day-time-label">
+                    {hour === 0 ? "12 AM" : hour < 12 ? `${hour} AM` : hour === 12 ? "12 PM" : `${hour - 12} PM`}
+                  </div>
+                  <div className="day-events-col" onClick={() => openDayDetail(ds)}>
+                    {hourEvents.map((e, idx) => {
+                      const h = parseTimeToHours(e.time);
+                      const topPct = ((h - hour) / 1) * 100;
+                      return (
+                        <div
+                          key={idx}
+                          className="day-event-block"
+                          style={{ background: e.color, top: `${topPct}%` }}
+                        >
+                          <div>{e.title}</div>
+                          <div className="day-event-time">{e.time}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
     }
-
-    // List view data
-    const upcomingList = getUpcomingEvents(eventsAsRecords, 50);
-    const grouped: Record<string, EventRecord[]> = {};
-    upcomingList.forEach((e) => {
-      if (!grouped[e.date]) grouped[e.date] = [];
-      grouped[e.date].push(e);
-    });
 
     return (
       <div id="section-calendar" className={`section${currentSection === "calendar" ? " active" : ""}`}>
         <div className="calendar-header">
           <div className="calendar-nav">
-            <button className="btn-ghost" onClick={() => changeMonth(-1)}>&#8249;</button>
-            <button className="btn-ghost" onClick={() => changeMonth(1)}>&#8250;</button>
-            <h2 id="cal-month-label">{monthLabel}</h2>
+            <button className="btn-ghost" onClick={navPrev}>&#8249;</button>
+            <button className="btn-ghost" onClick={navNext}>&#8250;</button>
+            <h2 id="cal-month-label">{headerLabel}</h2>
             <button className="today-btn" onClick={goToToday}>Today</button>
           </div>
           <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <button
-              className="btn-outline btn-small"
-              style={{ borderRadius: "8px" }}
-              onClick={() => setCalViewMode((v) => (v === "grid" ? "list" : "grid"))}
-            >
-              {calViewMode === "grid" ? "List" : "Calendar"}
-            </button>
+            <div className="tabs-bar" style={{ marginBottom: 0 }}>
+              <button
+                className={`tab-btn${calViewMode === "day" ? " active" : ""}`}
+                onClick={() => setCalViewMode("day")}
+                style={{ padding: "5px 12px", fontSize: "0.82rem" }}
+              >
+                Day
+              </button>
+              <button
+                className={`tab-btn${calViewMode === "week" ? " active" : ""}`}
+                onClick={() => setCalViewMode("week")}
+                style={{ padding: "5px 12px", fontSize: "0.82rem" }}
+              >
+                Week
+              </button>
+              <button
+                className={`tab-btn${calViewMode === "month" ? " active" : ""}`}
+                onClick={() => setCalViewMode("month")}
+                style={{ padding: "5px 12px", fontSize: "0.82rem" }}
+              >
+                Month
+              </button>
+            </div>
             <button className="btn-primary btn-small" style={{ borderRadius: "8px" }} onClick={openEventModal}>+</button>
           </div>
         </div>
 
         <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
           <div style={{ flex: 1 }}>
-            {calViewMode === "grid" ? (
+            {calViewMode === "month" && (
               <div id="cal-grid-view">
                 <div className="calendar-grid-wrapper">
                   <div className="calendar-grid" id="calendar-grid">
-                    {cells}
+                    {buildMonthCells()}
                   </div>
                 </div>
               </div>
-            ) : (
-              <div id="cal-list-view" className="calendar-list-view">
-                {upcomingList.length === 0 ? (
-                  <div className="empty-state">
-                    <h3>No upcoming events</h3>
-                    <p>Your calendar is wide open. Add something to look forward to.</p>
-                  </div>
-                ) : (
-                  Object.keys(grouped).sort().map((date) => (
-                    <div key={date} className="event-list-group">
-                      <h4>{formatDate(date)}</h4>
-                      {grouped[date].map((e, idx) => (
-                        <div key={idx} className="event-list-item">
-                          <div className="event-info">
-                            <span className="event-tag" style={{ background: e.color }} />
-                            <span className="event-title">{e.title}</span>
-                            {e.recurrence !== "none" && (
-                              <span className="badge" style={{ background: "#f0e8de", color: "var(--taupe)", marginLeft: "6px" }}>
-                                {e.recurrence}
-                              </span>
-                            )}
-                            {e.notes && (
-                              <div style={{ fontSize: "0.85rem", color: "var(--text-light)", marginTop: "2px" }}>
-                                {e.notes}
-                              </div>
-                            )}
-                          </div>
-                          <span className="event-time">{e.time || "All day"}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ))
-                )}
-              </div>
             )}
+            {calViewMode === "week" && buildWeekView()}
+            {calViewMode === "day" && buildDayView()}
           </div>
 
           {/* Calendar sidebar */}

@@ -52,6 +52,7 @@ button {
   min-height: 36px;
   min-width: 36px;
 }
+button:active { transform: scale(0.97); }
 
 input, select, textarea {
   font-family: inherit;
@@ -64,6 +65,8 @@ input, select, textarea {
   transition: border-color var(--transition), box-shadow var(--transition);
   width: 100%;
 }
+input[type="checkbox"] { transition: transform 0.15s ease; }
+input[type="checkbox"]:active { transform: scale(1.15); }
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--rose);
@@ -318,7 +321,7 @@ input:focus, select:focus, textarea:focus {
   min-height: 40px;
   margin-bottom: 2px;
 }
-.nav-item:hover { background: var(--surface); color: var(--text); }
+.nav-item:hover { background: var(--surface); color: var(--text); transition: background 0.2s ease, color 0.2s ease; }
 .nav-item.active { background: var(--surface); color: var(--rose); font-weight: 600; }
 .nav-item .icon { width: 22px; text-align: center; display: flex; align-items: center; justify-content: center; }
 .nav-item .icon svg { display: block; }
@@ -332,10 +335,19 @@ input:focus, select:focus, textarea:focus {
 .section {
   display: none;
   padding: 30px;
-  animation: fadeIn 150ms ease;
+  opacity: 0;
+  transform: translateY(8px);
   min-height: 100vh;
 }
-.section.active { display: block; }
+.section.active {
+  display: block;
+  animation: sectionEnter 0.2s ease both;
+}
+
+@keyframes sectionEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -431,11 +443,21 @@ input:focus, select:focus, textarea:focus {
 }
 
 .dash-card {
-  background: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.7);
   border-radius: var(--radius);
   border: 1px solid rgba(232,224,216,0.6);
   padding: 16px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  animation: slideUp 0.4s ease both;
+}
+.dash-card:nth-child(1) { animation-delay: 0ms; }
+.dash-card:nth-child(2) { animation-delay: 80ms; }
+.dash-card:nth-child(3) { animation-delay: 160ms; }
+.dash-card:nth-child(4) { animation-delay: 240ms; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .dash-card h3 { margin-bottom: 10px; color: var(--text-light); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
@@ -619,7 +641,7 @@ input:focus, select:focus, textarea:focus {
   border-right: 1px solid var(--border);
 }
 .cal-day:nth-child(7n+14) { border-right: none; }
-.cal-day:hover { background: var(--surface); }
+.cal-day:hover { background: var(--surface); transform: translateY(-1px); box-shadow: var(--shadow-hover); }
 .cal-day.other-month { background: #FAFAF8; }
 .cal-day.other-month .day-num { color: #C8C0B8; }
 .cal-day.selected { background: rgba(166,124,91,0.06); }
@@ -696,7 +718,7 @@ input:focus, select:focus, textarea:focus {
   background: var(--white);
   box-shadow: -4px 0 20px rgba(0,0,0,0.08);
   z-index: 500;
-  transition: right 0.3s ease;
+  transition: right 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow-y: auto;
   padding: 28px 24px;
 }
@@ -1083,6 +1105,234 @@ input:focus, select:focus, textarea:focus {
 }
 .modal-box h2 { margin-bottom: 16px; color: var(--text); font-size: 1.15rem; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* ============================================================
+   TYPOGRAPHY REFINEMENT
+   ============================================================ */
+.section > h2:first-child,
+.section > div:first-child > h2 {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============================================================
+   SKELETON PULSE (reusable)
+   ============================================================ */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.skeleton { animation: pulse 1.5s ease-in-out infinite; background: var(--surface); border-radius: var(--radius-sm); }
+
+/* ============================================================
+   WEEKLY VIEW
+   ============================================================ */
+.week-view {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.week-view-header {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.week-col-header {
+  text-align: center;
+  padding: 10px 4px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.week-col-header .week-day-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin: 4px auto 0;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text);
+}
+.week-col-header.today .week-day-num {
+  background: var(--rose);
+  color: white;
+  font-weight: 600;
+}
+
+.week-time-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  position: relative;
+}
+
+.week-time-label {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  text-align: right;
+  padding: 0 8px;
+  height: 48px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  margin-top: -6px;
+}
+
+.week-col {
+  border-left: 1px solid var(--border);
+  position: relative;
+  min-height: 48px;
+  border-bottom: 1px solid rgba(232,224,216,0.4);
+}
+
+.week-event-block {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 1;
+  cursor: pointer;
+  line-height: 1.4;
+  min-height: 20px;
+}
+.week-event-block:hover { opacity: 0.85; }
+
+.week-allday-row {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+  min-height: 28px;
+}
+
+.week-allday-label {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  text-align: right;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.week-allday-cell {
+  border-left: 1px solid var(--border);
+  padding: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.week-allday-pill {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: white;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   DAILY VIEW
+   ============================================================ */
+.day-view {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.day-all-day {
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 36px;
+}
+.day-all-day .day-allday-label {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: 60px;
+  flex-shrink: 0;
+}
+.day-all-day .day-allday-pill {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+}
+
+.day-time-grid {
+  position: relative;
+}
+
+.day-time-slot {
+  display: flex;
+  border-bottom: 1px solid rgba(232,224,216,0.4);
+  min-height: 48px;
+  position: relative;
+}
+
+.day-time-label {
+  width: 60px;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  text-align: right;
+  padding: 0 8px;
+  margin-top: -6px;
+}
+
+.day-events-col {
+  flex: 1;
+  position: relative;
+  border-left: 1px solid var(--border);
+}
+
+.day-event-block {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+  line-height: 1.4;
+  min-height: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.day-event-block:hover { opacity: 0.85; }
+.day-event-block .day-event-time {
+  font-size: 0.68rem;
+  opacity: 0.85;
+}
 
 /* ============================================================
    RESPONSIVE — Tablet
