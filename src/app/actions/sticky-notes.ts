@@ -20,7 +20,7 @@ export async function addStickyNote() {
 
   const result = await db
     .insert(stickyNotes)
-    .values({ userId, text: "" })
+    .values({ userId, text: "New note..." })
     .returning();
 
   revalidatePath("/");

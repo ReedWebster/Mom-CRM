@@ -516,6 +516,12 @@ input:focus, select:focus, textarea:focus {
   outline: none;
   word-break: break-word;
   line-height: 1.5;
+  cursor: text;
+}
+.sticky-note .note-text:empty::before {
+  content: "Click to type...";
+  color: #bbb;
+  font-style: italic;
 }
 
 .sticky-note .delete-note {
