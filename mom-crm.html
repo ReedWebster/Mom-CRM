@@ -10,120 +10,130 @@
    DESIGN SYSTEM — Colors, Typography, Base
    ============================================================ */
 :root {
-  --cream: #FDF6EC;
-  --rose: #E8A598;
-  --sage: #9DB89C;
-  --taupe: #C4A882;
-  --white: #FEFEFE;
-  --text: #4A3F35;
-  --text-light: #7A6F63;
-  --shadow: 0 2px 12px rgba(74,63,53,0.08);
-  --shadow-hover: 0 4px 20px rgba(74,63,53,0.14);
-  --radius: 16px;
-  --radius-sm: 12px;
-  --transition: 200ms ease;
+  --cream: #FAF7F2;
+  --rose: #A67C5B;
+  --sage: #8B9E82;
+  --taupe: #BFA98A;
+  --white: #FFFFFF;
+  --text: #2C2520;
+  --text-light: #8C8078;
+  --border: #E8E0D8;
+  --surface: #F5F1EC;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 150ms ease;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: -apple-system, system-ui, 'Segoe UI', sans-serif;
   background: var(--cream);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.55;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 { font-family: Georgia, 'Times New Roman', serif; font-weight: 600; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.2rem; }
+h1, h2, h3, h4 {
+  font-family: -apple-system, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.05rem; }
 
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
   border-radius: var(--radius-sm);
-  padding: 10px 20px;
-  font-size: 0.95rem;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 500;
   transition: all var(--transition);
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 36px;
+  min-width: 36px;
 }
 
 input, select, textarea {
   font-family: inherit;
-  font-size: 0.95rem;
-  border: 2px solid #e0d5c7;
+  font-size: 0.88rem;
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  padding: 9px 12px;
   background: var(--white);
   color: var(--text);
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition);
   width: 100%;
 }
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(166,124,91,0.1);
 }
 
 .btn-primary {
   background: var(--rose);
   color: white;
 }
-.btn-primary:hover { background: #d9928a; transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+.btn-primary:hover { background: #956E50; box-shadow: var(--shadow-hover); }
 
 .btn-secondary {
   background: var(--sage);
   color: white;
 }
-.btn-secondary:hover { background: #8daa8c; transform: translateY(-1px); }
+.btn-secondary:hover { background: #7A8D72; }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--taupe);
-  color: var(--taupe);
+  border: 1px solid var(--border);
+  color: var(--text);
 }
-.btn-outline:hover { background: var(--taupe); color: white; }
+.btn-outline:hover { background: var(--surface); border-color: var(--taupe); }
 
 .btn-ghost {
   background: transparent;
   color: var(--text-light);
-  padding: 8px 12px;
+  padding: 6px 10px;
 }
-.btn-ghost:hover { background: rgba(0,0,0,0.05); }
+.btn-ghost:hover { background: var(--surface); color: var(--text); }
 
-.btn-danger { background: #d9534f; color: white; }
-.btn-danger:hover { background: #c9302c; }
+.btn-danger { background: #C0392B; color: white; }
+.btn-danger:hover { background: #A93226; }
 
-.btn-small { padding: 6px 14px; font-size: 0.85rem; min-height: 36px; }
+.btn-small { padding: 5px 12px; font-size: 0.82rem; min-height: 32px; }
 
 .card {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
+  border: 1px solid var(--border);
+  padding: 16px;
   transition: all var(--transition);
 }
-.card:hover { box-shadow: var(--shadow-hover); }
+.card:hover { box-shadow: var(--shadow-hover); border-color: var(--taupe); }
 
 .badge {
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.73rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; color: var(--text-light); }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.82rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; }
 
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 48px 20px;
   color: var(--text-light);
 }
-.empty-state h3 { margin-bottom: 8px; color: var(--taupe); }
+.empty-state h3 { margin-bottom: 6px; color: var(--rose); font-weight: 500; }
 
 /* ============================================================
    BIRTHDAY / LANDING PAGE
@@ -135,46 +145,49 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #FDF6EC 0%, #f5e6d8 30%, #f0d4cb 60%, #E8A598 100%);
+  background: linear-gradient(160deg, #FAF7F2 0%, #F0E8DE 35%, #E8DDD0 65%, #D4C4B0 100%);
   overflow: hidden;
 }
 
 #birthday-screen .content {
   text-align: center;
   padding: 40px;
-  max-width: 600px;
+  max-width: 540px;
   z-index: 2;
   animation: fadeInUp 1s ease;
 }
 
 #birthday-screen h1 {
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   color: var(--rose);
-  margin-bottom: 12px;
-  text-shadow: 0 2px 8px rgba(232,165,152,0.3);
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 #birthday-screen .subtitle {
   font-family: Georgia, serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text);
-  line-height: 1.8;
-  margin-bottom: 36px;
-  opacity: 0.85;
+  line-height: 1.85;
+  margin-bottom: 40px;
+  opacity: 0.8;
 }
 
 #birthday-screen .enter-btn {
   background: var(--rose);
   color: white;
-  padding: 16px 40px;
-  font-size: 1.15rem;
-  border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(232,165,152,0.4);
-  letter-spacing: 0.5px;
+  padding: 14px 36px;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(166,124,91,0.3);
+  letter-spacing: 0.3px;
+  font-weight: 600;
 }
 #birthday-screen .enter-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 28px rgba(232,165,152,0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(166,124,91,0.35);
+  background: #956E50;
 }
 
 /* Floating hearts animation */
@@ -220,33 +233,33 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(74,63,53,0.4);
+  background: rgba(44,37,32,0.3);
   backdrop-filter: blur(6px);
 }
 
 #photo-setup .modal {
   background: var(--white);
   border-radius: var(--radius);
-  padding: 40px;
-  max-width: 460px;
+  padding: 32px;
+  max-width: 440px;
   width: 90%;
   text-align: center;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
   animation: fadeInUp 0.4s ease;
 }
 
-#photo-setup .modal h2 { margin-bottom: 12px; color: var(--taupe); }
+#photo-setup .modal h2 { margin-bottom: 10px; color: var(--text); font-size: 1.15rem; }
 #photo-setup .modal p { color: var(--text-light); margin-bottom: 24px; }
 
 .photo-upload-area {
-  border: 2px dashed var(--taupe);
+  border: 1px dashed var(--border);
   border-radius: var(--radius);
-  padding: 30px;
+  padding: 28px;
   cursor: pointer;
   transition: all var(--transition);
   margin-bottom: 20px;
 }
-.photo-upload-area:hover { border-color: var(--rose); background: #fdf6ec55; }
+.photo-upload-area:hover { border-color: var(--rose); background: var(--surface); }
 .photo-upload-area img { max-width: 100%; max-height: 200px; border-radius: var(--radius-sm); margin-top: 12px; }
 
 /* ============================================================
@@ -258,8 +271,8 @@ input:focus, select:focus, textarea:focus {
 .sidebar {
   width: 220px;
   background: var(--white);
-  border-right: 1px solid #ede5da;
-  padding: 20px 0;
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
   position: fixed;
   top: 0;
   left: 0;
@@ -271,31 +284,33 @@ input:focus, select:focus, textarea:focus {
 }
 
 .sidebar .logo {
-  padding: 10px 20px 24px;
-  font-family: Georgia, serif;
-  font-size: 1.25rem;
+  padding: 8px 20px 20px;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--rose);
-  border-bottom: 1px solid #ede5da;
-  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
 }
 
-.sidebar nav { flex: 1; }
+.sidebar nav { flex: 1; padding: 4px 8px; }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
+  gap: 10px;
+  padding: 9px 12px;
   color: var(--text-light);
   cursor: pointer;
   transition: all var(--transition);
-  border-left: 3px solid transparent;
-  font-size: 0.95rem;
-  min-height: 44px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  min-height: 40px;
+  margin-bottom: 2px;
 }
-.nav-item:hover { background: #fdf6ec; color: var(--text); }
-.nav-item.active { background: #fdf6ec; color: var(--rose); border-left-color: var(--rose); font-weight: 600; }
-.nav-item .icon { font-size: 1.2rem; width: 24px; text-align: center; }
+.nav-item:hover { background: var(--surface); color: var(--text); }
+.nav-item.active { background: var(--surface); color: var(--rose); font-weight: 600; }
+.nav-item .icon { font-size: 1.1rem; width: 22px; text-align: center; }
 
 .main-content {
   flex: 1;
@@ -329,13 +344,14 @@ input:focus, select:focus, textarea:focus {
 
 .toast {
   background: var(--white);
-  border-left: 4px solid var(--sage);
+  border-left: 3px solid var(--sage);
   border-radius: var(--radius-sm);
-  padding: 14px 40px 14px 16px;
+  padding: 12px 36px 12px 14px;
   box-shadow: var(--shadow-hover);
+  border: 1px solid var(--border);
   animation: slideInRight 0.3s ease;
   position: relative;
-  font-size: 0.92rem;
+  font-size: 0.85rem;
 }
 .toast .toast-close {
   position: absolute;
@@ -377,10 +393,10 @@ input:focus, select:focus, textarea:focus {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(253,246,236,0.42);
+  background: rgba(250,247,242,0.45);
 }
 .dashboard-bg.no-photo {
-  background: linear-gradient(135deg, #FDF6EC 0%, #f5e6d8 40%, #e8ddd0 70%, #f0d4cb 100%);
+  background: linear-gradient(160deg, #FAF7F2 0%, #F0E8DE 50%, #E8DDD0 100%);
 }
 
 .dashboard-inner {
@@ -404,18 +420,18 @@ input:focus, select:focus, textarea:focus {
 }
 
 .dash-card {
-  background: rgba(254,254,254,0.92);
+  background: rgba(255,255,255,0.88);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-  backdrop-filter: blur(4px);
+  border: 1px solid rgba(232,224,216,0.6);
+  padding: 16px;
+  backdrop-filter: blur(8px);
 }
-.dash-card h3 { margin-bottom: 12px; color: var(--taupe); font-size: 1.05rem; }
+.dash-card h3 { margin-bottom: 10px; color: var(--text-light); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
 .dash-card .event-item, .dash-card .todo-item, .dash-card .journal-preview {
-  padding: 8px 0;
-  border-bottom: 1px solid #f0e8de;
-  font-size: 0.9rem;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
 }
 .dash-card .event-item:last-child, .dash-card .todo-item:last-child { border-bottom: none; }
 
@@ -446,24 +462,21 @@ input:focus, select:focus, textarea:focus {
 
 .sticky-note {
   width: 180px;
-  min-height: 160px;
-  padding: 16px;
-  border-radius: 4px 4px 20px 4px;
-  box-shadow: 2px 3px 12px rgba(0,0,0,0.1);
-  font-size: 0.9rem;
+  min-height: 150px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
   position: relative;
   cursor: default;
-  transition: transform var(--transition);
+  transition: all var(--transition);
 }
-.sticky-note:hover { transform: rotate(0deg) scale(1.03); }
-.sticky-note:nth-child(odd) { transform: rotate(-2deg); }
-.sticky-note:nth-child(even) { transform: rotate(1.5deg); }
-.sticky-note:nth-child(3n) { transform: rotate(-1deg); }
+.sticky-note:hover { box-shadow: var(--shadow-hover); }
 
-.sticky-note.yellow { background: #FFF9C4; }
-.sticky-note.green { background: #C8E6C9; }
-.sticky-note.blue { background: #BBDEFB; }
-.sticky-note.pink { background: #F8BBD0; }
+.sticky-note.yellow { background: #FBF8F0; border-left: 3px solid #D4B896; }
+.sticky-note.green { background: #F5F8F4; border-left: 3px solid var(--sage); }
+.sticky-note.blue { background: #F4F6F8; border-left: 3px solid #8BA4B8; }
+.sticky-note.pink { background: #F9F5F3; border-left: 3px solid var(--rose); }
 
 .sticky-note .note-text {
   min-height: 100px;
@@ -491,28 +504,29 @@ input:focus, select:focus, textarea:focus {
 
 .add-note-btn {
   width: 180px;
-  min-height: 160px;
-  border: 2px dashed var(--taupe);
-  border-radius: 4px 4px 20px 4px;
-  background: rgba(255,255,255,0.5);
+  min-height: 150px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  color: var(--taupe);
+  font-size: 1.6rem;
+  color: var(--text-light);
   cursor: pointer;
   transition: all var(--transition);
 }
-.add-note-btn:hover { background: rgba(255,255,255,0.8); border-color: var(--rose); color: var(--rose); }
+.add-note-btn:hover { background: var(--surface); border-color: var(--taupe); color: var(--rose); }
 
 /* ============================================================
-   CALENDAR
+   CALENDAR — Apple Calendar Style
    ============================================================ */
 .calendar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  padding: 16px 4px 12px;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -520,45 +534,135 @@ input:focus, select:focus, textarea:focus {
 .calendar-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
-.calendar-nav h2 { min-width: 200px; text-align: center; }
-.calendar-nav button { background: var(--white); box-shadow: var(--shadow); }
+.calendar-nav h2 {
+  min-width: 200px;
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.calendar-nav button {
+  background: none;
+  box-shadow: none;
+  color: var(--rose);
+  font-size: 1.1rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  min-height: 36px;
+  min-width: 36px;
+}
+.calendar-nav button:hover { background: rgba(232,165,152,0.1); }
+
+.today-btn {
+  background: none !important;
+  box-shadow: none !important;
+  color: var(--rose) !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--rose);
+  padding: 4px 14px;
+  border-radius: 8px;
+  margin-left: 4px;
+}
+.today-btn:hover { background: rgba(232,165,152,0.08) !important; }
+
+.calendar-grid-wrapper {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  margin-bottom: 24px;
+  gap: 0;
+  margin-bottom: 0;
 }
 
 .cal-day-header {
   text-align: center;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-light);
-  padding: 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #999;
+  padding: 10px 4px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
 }
+.cal-day-header.weekend { color: #c0b8b0; }
 
 .cal-day {
   background: var(--white);
-  border-radius: var(--radius-sm);
-  padding: 8px;
-  min-height: 80px;
+  border-radius: 0;
+  padding: 4px 4px 2px;
+  min-height: 90px;
   cursor: pointer;
-  transition: all var(--transition);
+  transition: background var(--transition);
   position: relative;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
 }
-.cal-day:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
-.cal-day.today { border: 2px solid var(--rose); }
-.cal-day.other-month { opacity: 0.4; }
-.cal-day .day-num { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+.cal-day:nth-child(7n+14) { border-right: none; }
+.cal-day:hover { background: var(--surface); }
+.cal-day.other-month { background: #FAFAF8; }
+.cal-day.other-month .day-num { color: #C8C0B8; }
+.cal-day.selected { background: rgba(166,124,91,0.06); }
 
-.cal-dots { display: flex; gap: 3px; flex-wrap: wrap; }
-.cal-dot {
-  width: 8px;
-  height: 8px;
+.cal-day .day-num {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px auto 2px auto;
   border-radius: 50%;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.cal-day.today .day-num {
+  background: var(--rose);
+  color: white;
+  font-weight: 600;
+}
+
+.cal-day.weekend .day-num { color: #B8B0A8; }
+.cal-day.other-month.weekend .day-num { color: #D8D0C8; }
+
+/* Event pills (Apple Calendar style) */
+.cal-events {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  padding: 0 2px;
+}
+
+.cal-event-pill {
+  font-size: 0.68rem;
+  line-height: 1.4;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.cal-event-more {
+  font-size: 0.65rem;
+  color: var(--text-light);
+  padding: 0 5px;
+  font-weight: 500;
 }
 
 /* Day detail panel */
@@ -569,51 +673,70 @@ input:focus, select:focus, textarea:focus {
   width: 400px;
   height: 100vh;
   background: var(--white);
-  box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.08);
   z-index: 500;
   transition: right 0.3s ease;
   overflow-y: auto;
-  padding: 24px;
+  padding: 28px 24px;
 }
 .day-detail.open { right: 0; }
-.day-detail h3 { margin-bottom: 16px; }
+.day-detail h3 { margin-bottom: 20px; font-size: 1.2rem; font-family: system-ui, -apple-system, sans-serif; }
 .day-detail .close-panel {
   position: absolute;
   top: 16px;
   right: 16px;
   background: none;
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   cursor: pointer;
   color: var(--text-light);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.day-detail .close-panel:hover { background: #f0ebe4; }
 
-.event-form { margin-top: 20px; padding-top: 16px; border-top: 1px solid #ede5da; }
+.event-form { margin-top: 24px; padding-top: 20px; border-top: 1px solid #f0ebe4; }
 .event-tag {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-right: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 10px;
   vertical-align: middle;
 }
 
 .event-list-item {
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  background: #fdf6ec;
-  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: transparent;
+  margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  border-left: 3px solid var(--rose);
+  transition: background var(--transition);
 }
+.event-list-item:hover { background: #fdf8f2; }
 .event-list-item .event-info { flex: 1; }
-.event-list-item .event-time { font-size: 0.82rem; color: var(--text-light); }
-.event-list-item .event-title { font-weight: 600; }
+.event-list-item .event-time { font-size: 0.8rem; color: var(--text-light); font-weight: 500; }
+.event-list-item .event-title { font-weight: 500; font-size: 0.92rem; }
 
 /* List view */
-.calendar-list-view .event-list-group { margin-bottom: 20px; }
-.calendar-list-view .event-list-group h4 { color: var(--taupe); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #ede5da; }
+.calendar-list-view { padding: 0 4px; }
+.calendar-list-view .event-list-group { margin-bottom: 24px; }
+.calendar-list-view .event-list-group h4 {
+  color: var(--text);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0ebe4;
+  font-size: 0.95rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+}
 
 /* ============================================================
    JOURNAL
@@ -628,7 +751,8 @@ input:focus, select:focus, textarea:focus {
 .journal-sidebar {
   background: var(--white);
   border-radius: var(--radius);
-  padding: 16px;
+  border: 1px solid var(--border);
+  padding: 12px;
   overflow-y: auto;
   max-height: calc(100vh - 80px);
   position: sticky;
@@ -644,8 +768,8 @@ input:focus, select:focus, textarea:focus {
   transition: all var(--transition);
   margin-bottom: 4px;
 }
-.journal-entry-item:hover { background: #fdf6ec; }
-.journal-entry-item.active { background: #fdf6ec; border-left: 3px solid var(--rose); }
+.journal-entry-item:hover { background: var(--surface); }
+.journal-entry-item.active { background: var(--surface); border-left: 3px solid var(--rose); }
 .journal-entry-item .entry-date { font-size: 0.8rem; color: var(--text-light); }
 .journal-entry-item .entry-title { font-weight: 600; font-size: 0.95rem; }
 .journal-entry-item .mood-badge { font-size: 0.75rem; }
@@ -653,7 +777,8 @@ input:focus, select:focus, textarea:focus {
 .journal-editor {
   background: var(--white);
   border-radius: var(--radius);
-  padding: 24px;
+  border: 1px solid var(--border);
+  padding: 20px;
 }
 
 .journal-editor .entry-header { margin-bottom: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
@@ -662,46 +787,46 @@ input:focus, select:focus, textarea:focus {
 .journal-body {
   min-height: 400px;
   outline: none;
-  line-height: 1.8;
-  font-size: 1rem;
+  line-height: 1.75;
+  font-size: 0.92rem;
   padding: 12px;
-  border: 1px solid #ede5da;
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
-.journal-body:focus { border-color: var(--rose); }
+.journal-body:focus { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(166,124,91,0.08); }
 
 .journal-actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
 
 /* Mood badges */
-.mood-happy { background: #FFF9C4; color: #827717; }
-.mood-grateful { background: #C8E6C9; color: #2E7D32; }
-.mood-reflective { background: #BBDEFB; color: #1565C0; }
-.mood-tired { background: #D7CCC8; color: #4E342E; }
-.mood-excited { background: #F8BBD0; color: #AD1457; }
+.mood-happy { background: #F5F0E0; color: #8B7D50; }
+.mood-grateful { background: #EBF0EA; color: #5A7054; }
+.mood-reflective { background: #EBF0F5; color: #5A7088; }
+.mood-tired { background: #F0ECE8; color: #6B5D50; }
+.mood-excited { background: #F5ECE8; color: #8B6050; }
 
 /* ============================================================
    TODOS, PROJECTS, GOALS
    ============================================================ */
 .tabs-bar {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   margin-bottom: 24px;
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 6px;
-  box-shadow: var(--shadow);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 3px;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  border-radius: 6px;
   background: transparent;
   color: var(--text-light);
-  font-weight: 600;
-  min-height: 44px;
+  font-weight: 500;
+  min-height: 36px;
+  font-size: 0.85rem;
 }
-.tab-btn.active { background: var(--rose); color: white; }
+.tab-btn.active { background: var(--white); color: var(--text); box-shadow: var(--shadow); }
 
 /* Todos */
 .todo-input-row {
@@ -715,20 +840,20 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   background: var(--white);
   border-radius: var(--radius-sm);
-  margin-bottom: 6px;
-  box-shadow: var(--shadow);
+  margin-bottom: 4px;
+  border: 1px solid var(--border);
   transition: all var(--transition);
 }
-.todo-row.done { opacity: 0.5; }
+.todo-row.done { opacity: 0.45; }
 .todo-row.done .todo-text { text-decoration: line-through; }
-.todo-row .todo-text { flex: 1; }
+.todo-row .todo-text { flex: 1; font-size: 0.9rem; }
 .todo-row input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--sage);
+  width: 18px;
+  height: 18px;
+  accent-color: var(--rose);
   cursor: pointer;
 }
 
@@ -736,9 +861,9 @@ input:focus, select:focus, textarea:focus {
 .project-card {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 12px;
 }
 .project-card h3 { margin-bottom: 8px; }
 .project-card .project-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; font-size: 0.88rem; color: var(--text-light); }
@@ -749,9 +874,9 @@ input:focus, select:focus, textarea:focus {
   font-size: 0.78rem;
   font-weight: 600;
 }
-.status-not-started { background: #f0e8de; color: var(--taupe); }
-.status-in-progress { background: #BBDEFB; color: #1565C0; }
-.status-done { background: #C8E6C9; color: #2E7D32; }
+.status-not-started { background: var(--surface); color: var(--text-light); }
+.status-in-progress { background: #EBF0F5; color: #5A7088; }
+.status-done { background: #EBF0EA; color: #5A7054; }
 
 .subtask-row {
   display: flex;
@@ -771,23 +896,23 @@ input:focus, select:focus, textarea:focus {
 .goal-card {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
+  border: 1px solid var(--border);
+  padding: 16px;
 }
 .goal-card h3 { margin-bottom: 4px; }
 .goal-card .goal-category { font-size: 0.82rem; color: var(--text-light); margin-bottom: 12px; }
 
 .progress-bar {
-  height: 12px;
-  background: #f0e8de;
-  border-radius: 6px;
+  height: 6px;
+  background: var(--surface);
+  border-radius: 3px;
   overflow: hidden;
   margin-bottom: 8px;
 }
 .progress-fill {
   height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--sage), #7da87c);
+  border-radius: 3px;
+  background: var(--rose);
   transition: width 0.4s ease;
 }
 .progress-label { font-size: 0.82rem; color: var(--text-light); }
@@ -798,9 +923,11 @@ input:focus, select:focus, textarea:focus {
 .contacts-header { margin-bottom: 20px; }
 
 .birthday-banner {
-  background: linear-gradient(135deg, #FFF9C4, #FFE082);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rose);
   border-radius: var(--radius);
-  padding: 16px 20px;
+  padding: 14px 16px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -828,11 +955,11 @@ input:focus, select:focus, textarea:focus {
 .contact-card {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
+  border: 1px solid var(--border);
+  padding: 16px;
   transition: all var(--transition);
 }
-.contact-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.contact-card:hover { border-color: var(--taupe); box-shadow: var(--shadow-hover); }
 
 .contact-card .contact-avatar {
   width: 60px;
@@ -872,15 +999,15 @@ input:focus, select:focus, textarea:focus {
 .bookmark-card {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
+  border: 1px solid var(--border);
+  padding: 16px;
   cursor: pointer;
   transition: all var(--transition);
   text-decoration: none;
   color: inherit;
   display: block;
 }
-.bookmark-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.bookmark-card:hover { border-color: var(--taupe); box-shadow: var(--shadow-hover); }
 .bookmark-card .bm-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .bookmark-card .bm-header img { width: 20px; height: 20px; }
 .bookmark-card .bm-header h3 { font-size: 1rem; }
@@ -893,21 +1020,21 @@ input:focus, select:focus, textarea:focus {
 .settings-section {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  margin-bottom: 20px;
-  max-width: 600px;
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 16px;
+  max-width: 560px;
 }
-.settings-section h3 { margin-bottom: 16px; color: var(--taupe); }
+.settings-section h3 { margin-bottom: 14px; color: var(--text); font-size: 0.95rem; }
 
 .storage-bar {
-  height: 16px;
-  background: #f0e8de;
-  border-radius: 8px;
+  height: 6px;
+  background: var(--surface);
+  border-radius: 3px;
   overflow: hidden;
   margin-bottom: 6px;
 }
-.storage-fill { height: 100%; background: var(--sage); border-radius: 8px; }
+.storage-fill { height: 100%; background: var(--rose); border-radius: 3px; }
 
 /* ============================================================
    MODALS
@@ -915,8 +1042,8 @@ input:focus, select:focus, textarea:focus {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(74,63,53,0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(44,37,32,0.3);
+  backdrop-filter: blur(6px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -926,14 +1053,14 @@ input:focus, select:focus, textarea:focus {
 .modal-box {
   background: var(--white);
   border-radius: var(--radius);
-  padding: 28px;
-  max-width: 500px;
+  padding: 24px;
+  max-width: 460px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
-.modal-box h2 { margin-bottom: 16px; color: var(--taupe); }
+.modal-box h2 { margin-bottom: 16px; color: var(--text); font-size: 1.15rem; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 
 /* ============================================================
@@ -950,10 +1077,10 @@ input:focus, select:focus, textarea:focus {
     left: 0;
     right: 0;
     background: var(--white);
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    border-top: 1px solid var(--border);
     z-index: 100;
     justify-content: space-around;
-    padding: 6px 0;
+    padding: 4px 0;
   }
   .bottom-nav .bnav-item {
     display: flex;
@@ -979,7 +1106,9 @@ input:focus, select:focus, textarea:focus {
   .journal-sidebar { position: static; max-height: 300px; }
 
   .day-detail { width: 100%; right: -100%; }
-  .calendar-nav h2 { min-width: 160px; font-size: 1.2rem; }
+  .calendar-nav h2 { min-width: 140px; font-size: 1.1rem; }
+  .cal-event-pill { font-size: 0.6rem; padding: 0 3px; }
+  .cal-day .day-num { width: 24px; height: 24px; font-size: 0.75rem; }
 }
 
 /* ============================================================
@@ -995,8 +1124,19 @@ input:focus, select:focus, textarea:focus {
   h2 { font-size: 1.25rem; }
   .greeting-bar h1 { font-size: 1.4rem; }
 
-  .calendar-grid .cal-day { min-height: 50px; padding: 4px; }
-  .calendar-grid .cal-day .day-num { font-size: 0.75rem; }
+  .calendar-grid .cal-day { min-height: 48px; padding: 2px; }
+  .cal-day .day-num { width: 22px; height: 22px; font-size: 0.7rem; }
+  .cal-event-pill { display: none; }
+  .cal-events { display: flex; flex-direction: row; gap: 2px; justify-content: center; }
+  .cal-events::after { content: ''; }
+  .cal-day.has-events::after {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--rose);
+    border-radius: 50%;
+    display: block;
+    margin: 2px auto 0;
+  }
 
   #birthday-screen h1 { font-size: 2.2rem; }
   #birthday-screen .subtitle { font-size: 0.95rem; }
@@ -1175,18 +1315,21 @@ input:focus, select:focus, textarea:focus {
     <div id="section-calendar" class="section">
       <div class="calendar-header">
         <div class="calendar-nav">
-          <button class="btn-ghost" onclick="changeMonth(-1)">◀</button>
+          <button class="btn-ghost" onclick="changeMonth(-1)">‹</button>
+          <button class="btn-ghost" onclick="changeMonth(1)">›</button>
           <h2 id="cal-month-label"></h2>
-          <button class="btn-ghost" onclick="changeMonth(1)">▶</button>
+          <button class="today-btn" onclick="goToToday()">Today</button>
         </div>
-        <div style="display:flex;gap:10px">
-          <button class="btn-outline btn-small" id="cal-view-toggle" onclick="toggleCalendarView()">List View</button>
-          <button class="btn-primary btn-small" onclick="openEventModal()">+ Add Event</button>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn-outline btn-small" id="cal-view-toggle" onclick="toggleCalendarView()" style="border-radius:8px">List</button>
+          <button class="btn-primary btn-small" onclick="openEventModal()" style="border-radius:8px">+</button>
         </div>
       </div>
 
       <div id="cal-grid-view">
-        <div class="calendar-grid" id="calendar-grid"></div>
+        <div class="calendar-grid-wrapper">
+          <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
       </div>
 
       <div id="cal-list-view" class="calendar-list-view" style="display:none"></div>
@@ -1657,13 +1800,20 @@ function changeMonth(dir) {
   renderCalendar();
 }
 
+function goToToday() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCalendar();
+}
+
 function renderCalendar() {
   const label = document.getElementById('cal-month-label');
   label.textContent = new Date(calYear, calMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   const grid = document.getElementById('calendar-grid');
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  let html = days.map(d => `<div class="cal-day-header">${d}</div>`).join('');
+  const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  let html = days.map((d, i) => `<div class="cal-day-header${(i === 0 || i === 6) ? ' weekend' : ''}">${d}</div>`).join('');
 
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -1671,30 +1821,48 @@ function renderCalendar() {
   const today = new Date();
   const events = load(KEYS.events) || [];
 
+  // Helper to render a single day cell
+  function dayCell(d, dateStr, classes) {
+    const dayEvents = getEventsForDate(events, dateStr);
+    const pills = dayEvents.slice(0, 3).map(e =>
+      `<div class="cal-event-pill" style="background:${e.color}">${esc(e.title)}</div>`
+    ).join('');
+    const more = dayEvents.length > 3 ? `<div class="cal-event-more">+${dayEvents.length - 3} more</div>` : '';
+
+    return `<div class="${classes}" onclick="openDayDetail('${dateStr}')">
+      <div class="day-num">${d}</div>
+      <div class="cal-events">${pills}${more}</div>
+    </div>`;
+  }
+
   // Previous month days
   for (let i = firstDay - 1; i >= 0; i--) {
     const d = prevDays - i;
-    html += `<div class="cal-day other-month"><div class="day-num">${d}</div></div>`;
+    const pm = calMonth === 0 ? 11 : calMonth - 1;
+    const py = calMonth === 0 ? calYear - 1 : calYear;
+    const dateStr = `${py}-${String(pm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow = new Date(py, pm, d).getDay();
+    html += dayCell(d, dateStr, `cal-day other-month${(dow===0||dow===6)?' weekend':''}`);
   }
 
   // Current month days
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isToday = today.getFullYear() === calYear && today.getMonth() === calMonth && today.getDate() === d;
-    const dayEvents = getEventsForDate(events, dateStr);
-    const dots = dayEvents.slice(0, 4).map(e => `<span class="cal-dot" style="background:${e.color}"></span>`).join('');
-
-    html += `<div class="cal-day${isToday ? ' today' : ''}" onclick="openDayDetail('${dateStr}')">
-      <div class="day-num">${d}</div>
-      <div class="cal-dots">${dots}</div>
-    </div>`;
+    const dow = new Date(calYear, calMonth, d).getDay();
+    const cls = `cal-day${isToday ? ' today' : ''}${(dow===0||dow===6) ? ' weekend' : ''}${dateStr === selectedDate ? ' selected' : ''}`;
+    html += dayCell(d, dateStr, cls);
   }
 
   // Next month fill
   const totalCells = firstDay + daysInMonth;
   const remaining = (7 - (totalCells % 7)) % 7;
   for (let d = 1; d <= remaining; d++) {
-    html += `<div class="cal-day other-month"><div class="day-num">${d}</div></div>`;
+    const nm = calMonth === 11 ? 0 : calMonth + 1;
+    const ny = calMonth === 11 ? calYear + 1 : calYear;
+    const dateStr = `${ny}-${String(nm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow = new Date(ny, nm, d).getDay();
+    html += dayCell(d, dateStr, `cal-day other-month${(dow===0||dow===6)?' weekend':''}`);
   }
 
   grid.innerHTML = html;
