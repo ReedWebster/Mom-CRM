@@ -1243,7 +1243,7 @@ input:focus, select:focus, textarea:focus {
       <br><br>
       I know how much you love having your life in order, and I truly
       believe this tool will help you do just that. A space to plan,
-      organize, and keep everything in one place — built just for you.
+      organize, and keep everything in one place. Built just for you.
     </p>
     <button class="enter-btn" onclick="dismissBirthday()">Enter My Space</button>
   </div>
@@ -1424,7 +1424,7 @@ input:focus, select:focus, textarea:focus {
         <div class="journal-editor" id="journal-editor">
           <div class="print-header" id="print-header">
             <h1 id="print-title"></h1>
-            <div class="print-meta"><span id="print-date"></span> — <span id="print-mood"></span></div>
+            <div class="print-meta"><span id="print-date"></span> <span id="print-mood"></span></div>
           </div>
           <div class="entry-header">
             <input type="text" id="entry-title" placeholder="Entry title..." oninput="autoSaveEntry()">
@@ -1754,7 +1754,7 @@ function updateDashboard() {
   const todos = load(KEYS.todos) || [];
   const dashTodos = document.getElementById('dash-todos');
   if (todos.length === 0) {
-    dashTodos.innerHTML = '<div style="color:var(--text-light);font-size:0.9rem;padding:8px 0">No tasks yet — add some to stay on track!</div>';
+    dashTodos.innerHTML = '<div style="color:var(--text-light);font-size:0.9rem;padding:8px 0">No tasks yet. Add some to stay on track.</div>';
   } else {
     const top5 = todos.slice(0, 5);
     dashTodos.innerHTML = top5.map(t =>
@@ -1770,7 +1770,7 @@ function updateDashboard() {
   const dashEvents = document.getElementById('dash-events');
   const upcoming = getUpcomingEvents(events, 3);
   if (upcoming.length === 0) {
-    dashEvents.innerHTML = '<div style="color:var(--text-light);font-size:0.9rem;padding:8px 0">No upcoming events — your schedule is clear!</div>';
+    dashEvents.innerHTML = '<div style="color:var(--text-light);font-size:0.9rem;padding:8px 0">No upcoming events. Your schedule is clear.</div>';
   } else {
     dashEvents.innerHTML = upcoming.map(e =>
       `<div class="event-item">
@@ -1785,7 +1785,7 @@ function updateDashboard() {
   const entries = load(KEYS.journal) || [];
   const dashJournal = document.getElementById('dash-journal');
   if (entries.length === 0) {
-    dashJournal.innerHTML = '<div style="color:var(--text-light);font-size:0.9rem;padding:8px 0">No journal entries yet — start writing your thoughts!</div>';
+    dashJournal.innerHTML = '<div style="color:var(--text-light);font-size:0.9rem;padding:8px 0">No journal entries yet. Start writing your thoughts.</div>';
   } else {
     const latest = entries[0];
     dashJournal.innerHTML = `
@@ -2004,7 +2004,7 @@ function renderCalendarList() {
   const container = document.getElementById('cal-list-view');
 
   if (upcoming.length === 0) {
-    container.innerHTML = '<div class="empty-state"><h3>No upcoming events</h3><p>Your calendar is wide open — add something to look forward to!</p></div>';
+    container.innerHTML = '<div class="empty-state"><h3>No upcoming events</h3><p>Your calendar is wide open. Add something to look forward to.</p></div>';
     return;
   }
 
@@ -2225,7 +2225,7 @@ function renderJournalList() {
 
   const container = document.getElementById('journal-list');
   if (filtered.length === 0) {
-    container.innerHTML = '<div class="empty-state" style="padding:30px 10px"><h3>No entries yet</h3><p>Start writing — this is your space to reflect.</p></div>';
+    container.innerHTML = '<div class="empty-state" style="padding:30px 10px"><h3>No entries yet</h3><p>Start writing. This is your space to reflect.</p></div>';
     return;
   }
 
@@ -2476,7 +2476,7 @@ function renderGoals() {
   const container = document.getElementById('goals-list');
 
   if (goals.length === 0) {
-    container.innerHTML = '<div class="empty-state"><h3>Dream big</h3><p>Set a goal — even a small one — and watch yourself grow.</p></div>';
+    container.innerHTML = '<div class="empty-state"><h3>Dream big</h3><p>Set a goal, even a small one, and watch yourself grow.</p></div>';
     return;
   }
 
@@ -2609,7 +2609,7 @@ function renderContacts() {
   // Grid
   const grid = document.getElementById('contacts-grid');
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><h3>No one here yet</h3><p>Add the people you love — family, friends, the neighbor who waters your plants. Everyone has a place here.</p></div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><h3>No one here yet</h3><p>Add the people you love. Family, friends, everyone has a place here.</p></div>';
     return;
   }
 
@@ -2861,7 +2861,7 @@ function importData(input) {
 
 function confirmClearAll() {
   if (!confirm('Are you absolutely sure? This will delete everything permanently.')) return;
-  if (!confirm('Last chance — really delete all your data?')) return;
+  if (!confirm('Last chance. Really delete all your data?')) return;
   for (let key in localStorage) {
     if (key.startsWith('mom_crm_')) localStorage.removeItem(key);
   }
