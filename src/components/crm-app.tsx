@@ -285,7 +285,6 @@ const SECTIONS = [
   { id: "todos", label: "Todos & Goals", Icon: IconTodo },
   { id: "contacts", label: "Contacts", Icon: IconPeople },
   { id: "bookmarks", label: "Bookmarks", Icon: IconBookmark },
-  { id: "settings", label: "Settings", Icon: IconSettings },
 ] as const;
 
 const CALENDAR_COLORS = [
@@ -408,7 +407,7 @@ export default function CrmApp({
   // Helpers
   // =========================================================================
   const userName = settings.name || "Mom";
-  const dashboardPhotoUrl = settings.dashboardPhotoUrl;
+  const dashboardPhotoUrl = "/family.jpg";
 
   function getGreeting() {
     const hour = now.getHours();
@@ -2002,51 +2001,6 @@ export default function CrmApp({
     URL.revokeObjectURL(a.href);
   }
 
-  function renderSettings() {
-    return (
-      <div id="section-settings" className={`section${currentSection === "settings" ? " active" : ""}`}>
-        <h2 style={{ marginBottom: "20px" }}>Settings</h2>
-
-        <div className="settings-section">
-          <h3>Your Name</h3>
-          <div className="form-group">
-            <input
-              type="text"
-              placeholder="Your name"
-              value={settingsName}
-              onChange={(e) => handleNameChange(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="settings-section">
-          <h3>Dashboard Photo</h3>
-          <p style={{ color: "var(--text-light)", marginBottom: "12px", fontSize: "0.9rem" }}>
-            Change the background photo on your dashboard.
-          </p>
-          <input type="file" accept="image/*" onChange={handleDashboardPhotoChange} />
-        </div>
-
-        <div className="settings-section">
-          <h3>Storage</h3>
-          <div className="storage-bar">
-            <div className="storage-fill" id="storage-fill" style={{ width: "0%" }} />
-          </div>
-          <div id="storage-label" style={{ fontSize: "0.85rem", color: "var(--text-light)" }}>
-            Database storage (managed by server)
-          </div>
-        </div>
-
-        <div className="settings-section">
-          <h3>Data Backup</h3>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <button className="btn-secondary" onClick={handleExportData}>Export Data</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   // =========================================================================
   // MODAL OVERLAY
   // =========================================================================
@@ -2102,7 +2056,6 @@ export default function CrmApp({
           {renderTodosSection()}
           {renderContacts()}
           {renderBookmarks()}
-          {renderSettings()}
         </main>
       </div>
     </>
