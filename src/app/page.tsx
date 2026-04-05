@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import { db } from "@/db";
 import {
   userSettings, calendars, events, journalEntries,
@@ -17,7 +18,7 @@ const DEFAULT_CALENDARS = [
 
 export default async function Home() {
   const { userId } = await auth();
-  if (!userId) return null;
+  if (!userId) redirect("/sign-in");
 
   // Ensure user settings exist
   let [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, userId));
