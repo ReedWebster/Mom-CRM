@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
 import {
@@ -16,9 +16,42 @@ const DEFAULT_CALENDARS = [
   { name: "Other", color: "#BFA98A" },
 ];
 
+const ALLOWED_EMAILS = [
+  "reedwebster7284@gmail.com",
+  "lauriebwebster@gmail.com",
+];
+
 export default async function Home() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
+
+  // Check email allowlist
+  const user = await currentUser();
+  const email = user?.emailAddresses?.[0]?.emailAddress;
+  if (!email || !ALLOWED_EMAILS.includes(email.toLowerCase())) {
+    return (
+      <div style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#FAF7F2",
+        fontFamily: "-apple-system, system-ui, sans-serif",
+        color: "#2C2520",
+        textAlign: "center",
+        padding: "40px",
+      }}>
+        <div>
+          <h1 style={{ fontSize: "1.5rem", marginBottom: "12px" }}>Access Restricted</h1>
+          <p style={{ color: "#8C8078", marginBottom: "24px" }}>
+            This space is private. If you think you should have access,<br />
+            reach out to the person who shared it with you.
+          </p>
+          <a href="/sign-in" style={{ color: "#A67C5B", textDecoration: "underline" }}>Sign in with a different account</a>
+        </div>
+      </div>
+    );
+  }
 
   // Ensure user settings exist
   let [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, userId));
